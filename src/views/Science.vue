@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1>你好</h1>
-  </div>
+    <div>
+        科普
+    </div>
 </template>
 
 <script setup lang="ts">
