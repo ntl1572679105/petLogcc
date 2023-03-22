@@ -10,7 +10,7 @@
           <el-menu-item index="/home/news">新闻</el-menu-item>
           <el-menu-item index="/home/science">科普</el-menu-item>
           <el-button @click="$router.push('/login')">登录</el-button>
-          <el-button>用户信息</el-button>
+          <el-button @click="$router.push('/user')">用户信息</el-button>
         </el-menu>
       </el-header>
       <el-main>
