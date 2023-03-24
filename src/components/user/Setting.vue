@@ -66,7 +66,7 @@
   <el-row class="table-row">
     <el-col class="label" :span="6">一句话介绍自己 </el-col>
     <el-col v-if="!introduceEditting" class="content" :span="18"
-      >这人很懒什么都没留下<span
+      >这个人很懒，什么都没留下<span
         class="hover-edit"
         @click="introduceEditting = true"
         >编辑</span
@@ -148,7 +148,7 @@
         <div>
           <el-input style="width: 200px" placeholder="新密码" />
         </div>
-        <div style="margin-top: 15px;">
+        <div style="margin-top: 15px">
           <el-input style="width: 200px" placeholder="重复新密码" />
         </div>
 
@@ -178,8 +178,26 @@
   </el-row>
   <el-row style="margin-top: 30px">上传收款码</el-row>
   <el-row style="margin-top: 30px">
-    <div class="QR-code"></div>
-    <div class="QR-code" style="margin-left: 30px"></div>
+    <div class="QR-code">
+      <span class="hover-text">微信</span>
+      <img :src="microMsgQRCode" />
+      <input
+        type="file"
+        class="file-selector"
+        accept="image/*"
+        @change="changeMicroMsgQRCode($event)"
+      />
+    </div>
+    <div class="QR-code" style="margin-left: 30px">
+      <span class="hover-text">支付宝</span>
+      <img :src="alipayQRCode" />
+      <input
+        type="file"
+        class="file-selector"
+        accept="image/*"
+        @change="changeAlipayQRCode($event)"
+      />
+    </div>
   </el-row>
   <el-row class="hint-text" style="margin-top: 30px">
     如果您需要提现，我们会通过此二维码进行转账
@@ -200,11 +218,25 @@ export default defineComponent({
       phoneEditting: false,
       addressEditting: false,
       passwordEditting: false,
+      microMsgQRCode: "",
+      alipayQRCode: "",
       gender: "1",
     });
+    let { alipayQRCode, microMsgQRCode } = toRefs(data.value);
+    let methods = {
+      changeMicroMsgQRCode(e: any) {
+        const file = e.target.files[0];
+        if (file) microMsgQRCode.value = URL.createObjectURL(file);
+      },
+      changeAlipayQRCode(e: any) {
+        const file = e.target.files[0];
+        if (file) alipayQRCode.value = URL.createObjectURL(file);
+      },
+    };
 
     return {
       ...toRefs(data.value),
+      ...toRefs(methods),
     };
   },
   components: { NoItems },
@@ -243,8 +275,35 @@ export default defineComponent({
   }
 }
 .QR-code {
-  width: 180px;
-  height: 180px;
+  width: 150px;
+  height: 150px;
+  padding: 10px;
   border: 1px solid gray;
+  border-radius: 4px;
+  position: relative;
+  &:hover {
+    .hover-text {
+      display: block;
+    }
+  }
+  .hover-text {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    background-color: gray;
+    color: white;
+    padding: 3px 6px;
+  }
+  .file-selector {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+  }
 }
 </style>

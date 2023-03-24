@@ -29,9 +29,17 @@
           <el-avatar
             shape="square"
             style="width: 100%; height: 100%"
-            :src="require('@/assets/imgs/default-avatar.png')"
+            :src="avatarSrc"
           ></el-avatar>
-          <div class="avatar-hover-effect"></div>
+          <div class="avatar-hover-effect">
+            <input
+              type="file"
+              class="file-selector"
+              accept="image/*"
+              @change="changeAvatar($event)"
+            />
+            <span class="add-sign">+</span>
+          </div>
         </div>
       </div>
       <div style="margin-left: 180px; color: gray">
@@ -47,9 +55,9 @@
       </div>
 
       <el-row style="margin-top: 20px">
-        <!-- 侧边栏导航 -->
+        <!-- 左侧导航 -->
         <el-col :span="4">
-          <el-menu>
+          <el-menu text-color="gray" active-text-color="orange">
             <el-menu-item
               index="overview"
               class="menu-item"
@@ -133,19 +141,20 @@
 </template>
 
 <script lang="ts">
+import { fi } from "element-plus/es/locale";
 import { defineComponent, ref, toRefs } from "vue";
 
 export default defineComponent({
   name: "Home",
   setup() {
     let data = ref({
-      a: 9,
-      b: 8,
+      avatarSrc: require("@/assets/imgs/default-avatar.png"),
     });
-    let { a, b } = toRefs(data.value);
+    let { avatarSrc } = toRefs(data.value);
     let methods = {
-      change() {
-        a.value++;
+      changeAvatar(e: any) {
+        const file = e.target.files[0];
+        if (file) avatarSrc.value = URL.createObjectURL(file);
       },
     };
 
@@ -165,6 +174,10 @@ export default defineComponent({
 .menu-item-left {
   display: flex;
   align-items: center;
+  // color: gray;
+  // &-icon{
+  //   color: #409eff;
+  // }
 }
 .menu-item-left-icon {
   margin-right: 5px;
@@ -179,21 +192,35 @@ export default defineComponent({
 .avatar {
   width: 130px;
   height: 130px;
-  &:hover{
+
+  &:hover {
     .avatar-hover-effect {
-    display: block;
-  }
+      display: flex;
+    }
   }
   .avatar-hover-effect {
     display: none;
+    justify-content: center;
+    align-items: center;
     position: absolute;
+
     border-radius: 4px;
     width: 94%;
     height: 94%;
     left: 3%;
     top: 3%;
-    background-color: black;
-    opacity: 0.2;
+    background-color: rgba(0, 0, 0, 0.2);
+    .file-selector {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      cursor: pointer;
+      opacity: 0;
+    }
+    .add-sign {
+      font-size: 20px;
+      color: white;
+    }
   }
 }
 </style>
