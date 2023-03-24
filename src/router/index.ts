@@ -49,9 +49,32 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import( '../views/Regist.vue')
   },
   {
-    path: '/user',
+    path: '/user/:id',
     name: 'user',
-    component: () => import( '../views/User.vue')
+    component: () => import( '../views/User.vue'),
+    children:[
+      {
+        path:'',
+        name:'overview',
+        component:()=>import('../components/user/Overview.vue')
+      },
+      {
+        path:'published',
+        name:'published',
+        component:()=>import('../components/user/Published.vue')
+      },
+      {
+        path:'invitation-code',
+        name:'invitationCode',
+        component:()=>import('../components/user/InvitationCode.vue')
+      },
+      {
+        path:'setting',
+        name:'setting',
+        component:()=>import('../components/user/Setting.vue')
+      },
+
+    ]
   },
 ]
 

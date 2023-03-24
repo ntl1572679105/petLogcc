@@ -22,17 +22,17 @@
           ></Picture>
           上传封面照片
         </el-button>
-        <el-avatar
-          shape="square"
-          :src="require('@/assets/imgs/default-avatar.png')"
-          style="
-            width: 130px;
-            height: 130px;
-            position: absolute;
-            left: 20px;
-            bottom: -65px;
-          "
-        ></el-avatar>
+        <div
+          class="avatar"
+          style="position: absolute; left: 20px; bottom: -65px"
+        >
+          <el-avatar
+            shape="square"
+            style="width: 100%; height: 100%"
+            :src="require('@/assets/imgs/default-avatar.png')"
+          ></el-avatar>
+          <div class="avatar-hover-effect"></div>
+        </div>
       </div>
       <div style="margin-left: 180px; color: gray">
         <div>
@@ -50,56 +50,72 @@
         <!-- 侧边栏导航 -->
         <el-col :span="4">
           <el-menu>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item
+              index="overview"
+              class="menu-item"
+              @click="$router.push({ name: 'overview' })"
+            >
               <div class="menu-item-left">
                 <User class="menu-item-left-icon" />
                 概览
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item
+              index="published"
+              class="menu-item"
+              @click="$router.push({ name: 'published' })"
+            >
               <div class="menu-item-left">
                 <Document class="menu-item-left-icon" />
                 发布的
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item index="order" class="menu-item">
               <div class="menu-item-left">
                 <List class="menu-item-left-icon" />
                 订单
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item
+              index="code"
+              class="menu-item"
+              @click="$router.push({ name: 'invitationCode' })"
+            >
               <div class="menu-item-left">
                 <Key class="menu-item-left-icon" />
                 邀请码
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item index="subscription" class="menu-item">
               <div class="menu-item-left">
                 <Collection class="menu-item-left-icon" />
                 关注
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item index="fans" class="menu-item">
               <div class="menu-item-left">
                 <User class="menu-item-left-icon" />
                 粉丝
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item index="favorite" class="menu-item">
               <div class="menu-item-left">
                 <User class="menu-item-left-icon" />
                 收藏
               </div>
               <ArrowRight class="menu-item-arrow"
             /></el-menu-item>
-            <el-menu-item index="1-3" class="menu-item">
+            <el-menu-item
+              index="setting"
+              class="menu-item"
+              @click="$router.push({ name: 'setting' })"
+            >
               <div class="menu-item-left">
                 <User class="menu-item-left-icon" /> 设置
               </div>
@@ -107,17 +123,10 @@
             /></el-menu-item>
           </el-menu>
         </el-col>
-        <!-- 内容 -->
-        <el-col :span="8" :offset="1">
-          <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="date" label="Date" width="200" />
-            <el-table-column prop="name" label="Name" width="300" />
-            <el-table-column
-              prop="address"
-              label="Address"
-              width="100"
-            /> </el-table
-        ></el-col>
+        <!-- 右侧内容 -->
+        <el-col :span="19" :offset="1" style="margin-top: 20px">
+          <router-view />
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -132,28 +141,6 @@ export default defineComponent({
     let data = ref({
       a: 9,
       b: 8,
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-02",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-04",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-01",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-      ],
     });
     let { a, b } = toRefs(data.value);
     let methods = {
@@ -171,7 +158,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .menu-item {
   justify-content: space-between;
 }
@@ -187,5 +174,26 @@ export default defineComponent({
 .menu-item-arrow {
   width: 1rem;
   height: 1rem;
+}
+
+.avatar {
+  width: 130px;
+  height: 130px;
+  &:hover{
+    .avatar-hover-effect {
+    display: block;
+  }
+  }
+  .avatar-hover-effect {
+    display: none;
+    position: absolute;
+    border-radius: 4px;
+    width: 94%;
+    height: 94%;
+    left: 3%;
+    top: 3%;
+    background-color: black;
+    opacity: 0.2;
+  }
 }
 </style>
