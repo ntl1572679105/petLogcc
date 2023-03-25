@@ -1,9 +1,9 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 <style lang="scss">
-body{
+body {
   width: 1200px;
   margin: 0 auto;
 }

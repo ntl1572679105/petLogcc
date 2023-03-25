@@ -59,14 +59,14 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('../components/user/Overview.vue')
       },
       {
-        path:'published',
-        name:'published',
-        component:()=>import('../components/user/Published.vue')
+        path:'article',
+        name:'article',
+        component:()=>import('../components/user/Article.vue')
       },
       {
-        path:'invitation-code',
-        name:'invitationCode',
-        component:()=>import('../components/user/InvitationCode.vue')
+        path:'reservation',
+        name:'reservation',
+        component:()=>import('../components/user/Reserve.vue')
       },
       {
         path:'setting',

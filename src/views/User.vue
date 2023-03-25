@@ -1,27 +1,32 @@
 <template>
   <div>
+    <div></div>
     <div class="container" :style="{ maxWidth: '1600px', margin: '0 auto' }">
       <!-- 头部背景及头像、名称 -->
       <div style="position: relative">
         <el-image
           :src="require('@/assets/imgs/task_bg.jpg')"
-          :style="{ width: '100%', borderRadius: '5px 5px 0 0' }"
+          :style="{ width: '1200px',height:'235.83px', borderRadius: '5px 5px 0 0' }"
         />
-        <el-button
-          type="plain"
-          style="
-            background-color: transparent;
-            color: white;
-            position: absolute;
-            right: 30px;
-            top: 30px;
-          "
-        >
-          <Picture
-            style="width: 16px; height: 1em; margin-right: 4px"
-          ></Picture>
-          上传封面照片
-        </el-button>
+        <div style="position: absolute; right: 30px; top: 30px">
+          <el-button
+            type="plain"
+            style="background-color: transparent; color: white"
+          >
+            <span class="iconfont" style="font-size: 14px"
+              >&#xe62c; 上传封面照片</span
+            >
+          </el-button>
+          <label class="file-selector">
+            <input
+              type="file"
+              style="display: none"
+              accept="image/*"
+              @change="changeAvatar($event)"
+            />
+          </label>
+        </div>
+
         <div
           class="avatar"
           style="position: absolute; left: 20px; bottom: -65px"
@@ -32,13 +37,18 @@
             :src="avatarSrc"
           ></el-avatar>
           <div class="avatar-hover-effect">
-            <input
-              type="file"
-              class="file-selector"
-              accept="image/*"
-              @change="changeAvatar($event)"
-            />
-            <span class="add-sign">+</span>
+            <label class="file-selector">
+              <input
+                type="file"
+                style="display: none"
+                accept="image/*"
+                @change="changeAvatar($event)"
+              />
+            </label>
+            <div class="iconfont change-avatar">
+              &#xe62c;<br />
+              修改我的头像
+            </div>
           </div>
         </div>
       </div>
@@ -57,78 +67,53 @@
       <el-row style="margin-top: 20px">
         <!-- 左侧导航 -->
         <el-col :span="4">
-          <el-menu text-color="gray" active-text-color="orange">
+          <!-- 修改了导航栏的默认行为 -->
+          <el-menu text-color="gray" active-text-color="gray">
             <el-menu-item
-              index="overview"
+              :class="{ active: /\/user\/[^\/]+$/.test($route.path) }"
+              index="1"
               class="menu-item"
               @click="$router.push({ name: 'overview' })"
             >
-              <div class="menu-item-left">
-                <User class="menu-item-left-icon" />
-                概览
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
-            <el-menu-item
-              index="published"
-              class="menu-item"
-              @click="$router.push({ name: 'published' })"
+              <div class="iconfont">&#xe667; 概览</div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
             >
-              <div class="menu-item-left">
-                <Document class="menu-item-left-icon" />
-                发布的
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
-            <el-menu-item index="order" class="menu-item">
-              <div class="menu-item-left">
-                <List class="menu-item-left-icon" />
-                订单
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
             <el-menu-item
-              index="code"
+              index="2"
               class="menu-item"
-              @click="$router.push({ name: 'invitationCode' })"
+              :class="{ active: /\/user\/.*?\/article/.test($route.path) }"
+              @click="$router.push({ name: 'article' })"
             >
-              <div class="menu-item-left">
-                <Key class="menu-item-left-icon" />
-                邀请码
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
-            <el-menu-item index="subscription" class="menu-item">
-              <div class="menu-item-left">
-                <Collection class="menu-item-left-icon" />
-                关注
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
-            <el-menu-item index="fans" class="menu-item">
-              <div class="menu-item-left">
-                <User class="menu-item-left-icon" />
-                粉丝
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
-            <el-menu-item index="favorite" class="menu-item">
-              <div class="menu-item-left">
-                <User class="menu-item-left-icon" />
-                收藏
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
+              <div class="iconfont">&#xe615; 文章</div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
+            >
+
             <el-menu-item
-              index="setting"
+              index="3"
               class="menu-item"
+              :class="{
+                active: /\/user\/.*?\/reservation/.test($route.path),
+              }"
+              @click="$router.push({ name: 'reservation' })"
+            >
+              <div class="iconfont">
+                <span
+                  style="font-size: 16px; margin-left: 2px; margin-right: 4px"
+                  >&#xe60d;</span
+                >预约
+              </div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
+            >
+
+            <el-menu-item
+              index="4"
+              class="menu-item"
+              :class="{ active: /\/user\/.*?\/setting/.test($route.path) }"
               @click="$router.push({ name: 'setting' })"
             >
-              <div class="menu-item-left">
-                <User class="menu-item-left-icon" /> 设置
-              </div>
-              <ArrowRight class="menu-item-arrow"
-            /></el-menu-item>
+              <div class="iconfont">&#xe6a4; 设置</div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
+            >
           </el-menu>
         </el-col>
         <!-- 右侧内容 -->
@@ -141,8 +126,8 @@
 </template>
 
 <script lang="ts">
-import { fi } from "element-plus/es/locale";
 import { defineComponent, ref, toRefs } from "vue";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Home",
@@ -170,28 +155,28 @@ export default defineComponent({
 <style scoped lang="scss">
 .menu-item {
   justify-content: space-between;
+  &.active {
+    color: orange !important;
+  }
 }
-.menu-item-left {
-  display: flex;
-  align-items: center;
-  // color: gray;
-  // &-icon{
-  //   color: #409eff;
-  // }
-}
-.menu-item-left-icon {
-  margin-right: 5px;
-  width: 1.3rem;
-  height: 1.3rem;
-}
+
 .menu-item-arrow {
   width: 1rem;
   height: 1rem;
 }
 
+.file-selector {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+}
 .avatar {
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
 
   &:hover {
     .avatar-hover-effect {
@@ -210,15 +195,10 @@ export default defineComponent({
     left: 3%;
     top: 3%;
     background-color: rgba(0, 0, 0, 0.2);
-    .file-selector {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      cursor: pointer;
-      opacity: 0;
-    }
-    .add-sign {
-      font-size: 20px;
+
+    .change-avatar {
+      font-size: 14px;
+      text-align: center;
       color: white;
     }
   }

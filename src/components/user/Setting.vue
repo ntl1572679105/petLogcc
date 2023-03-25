@@ -4,9 +4,9 @@
   <el-row class="table-row">
     <el-col class="label" :span="6"> 昵称</el-col>
     <el-col v-if="!nicknameEditting" class="content" :span="18">
-      uyg
-      <span class="hover-edit" @click="nicknameEditting = true"
-        >编辑</span
+      <span class="text">uyg</span>
+      <span class="hover-edit iconfont" @click="nicknameEditting = true"
+        >&#xe600; 编辑</span
       ></el-col
     >
     <el-col v-else class="content" :span="18">
@@ -24,9 +24,10 @@
   <el-row class="table-row">
     <el-col class="label" :span="6">性别</el-col>
     <el-col v-if="!genderEditting" class="content" :span="18">
-      男
-      <span class="hover-edit" @click="genderEditting = true"
-        >编辑</span
+      <span class="text">男</span>
+
+      <span class="hover-edit iconfont" @click="genderEditting = true"
+        >&#xe600; 编辑</span
       ></el-col
     >
     <el-col v-else class="content" :span="18">
@@ -45,18 +46,19 @@
   </el-row>
 
   <el-row class="table-row">
-    <el-col class="label" :span="6">网址</el-col>
-    <el-col v-if="!netAddressEditting" class="content" :span="18">
-      <span class="hover-edit" @click="netAddressEditting = true"
-        >编辑</span
+    <el-col class="label" :span="6">邮箱</el-col>
+    <el-col v-if="!emailEditting" class="content" :span="18">
+      <span class="text"></span>
+      <span class="hover-edit iconfont" @click="emailEditting = true"
+        >&#xe600; 编辑</span
       ></el-col
     >
     <el-col v-else class="content" :span="18">
       <el-input style="width: 200px" />
-      <div class="hint-text" style="margin-top: 10px">输入网址</div>
+      <div class="hint-text" style="margin-top: 10px">输入邮箱</div>
 
       <div style="margin-top: 10px">
-        <el-button plain type="warning" @click="netAddressEditting = false"
+        <el-button plain type="warning" @click="emailEditting = false"
           >取消</el-button
         >
         <el-button type="warning">保存</el-button>
@@ -66,10 +68,9 @@
   <el-row class="table-row">
     <el-col class="label" :span="6">一句话介绍自己 </el-col>
     <el-col v-if="!introduceEditting" class="content" :span="18"
-      >这个人很懒，什么都没留下<span
-        class="hover-edit"
-        @click="introduceEditting = true"
-        >编辑</span
+      ><span class="text">这个人很懒，什么都没留下</span
+      ><span class="hover-edit iconfont" @click="introduceEditting = true"
+        >&#xe600; 编辑</span
       ></el-col
     >
     <el-col v-else class="content" :span="18">
@@ -117,8 +118,9 @@
     <el-col class="label" :span="6">绑定手机</el-col>
     <el-col class="content" :span="18">
       <div v-if="!phoneEditting">
-        13336719336<span class="hover-edit" @click="phoneEditting = true"
-          >编辑</span
+        <span class="text">13336719336</span
+        ><span class="hover-edit iconfont" @click="phoneEditting = true"
+          >&#xe600; 编辑</span
         >
       </div>
       <div v-else>
@@ -205,6 +207,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, toRefs } from "vue";
+import { useRoute } from "vue-router";
 import NoItems from "./NoItems.vue";
 
 export default defineComponent({
@@ -213,7 +216,7 @@ export default defineComponent({
     let data = ref({
       nicknameEditting: false,
       genderEditting: false,
-      netAddressEditting: false,
+      emailEditting: false,
       introduceEditting: false,
       phoneEditting: false,
       addressEditting: false,
@@ -255,17 +258,22 @@ export default defineComponent({
 
   .label {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .content {
-    font-size: 18px;
+    font-size: 16px;
+    .text {
+      margin-right: 10px;
+      &:empty {
+        margin-right: 0;
+      }
+    }
     .hover-edit {
       display: none;
       color: orange;
       font-size: 15px;
       cursor: pointer;
-      margin-left: 10px;
     }
     &:hover {
       .hover-edit {

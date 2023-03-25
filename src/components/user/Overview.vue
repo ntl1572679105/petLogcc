@@ -41,7 +41,7 @@
       >前往设置</el-col
     >
   </el-row>
-  <el-row style="margin-top: 30px; font-size: 25px">财富</el-row>
+  <el-row style="margin-top: 90px; font-size: 25px">财富</el-row>
   <div style="padding-left: 20px; margin-top: 20px">
     <el-row style="margin-top: 30px">
       <el-col :span="11" style="font-size: 25px"> B0 </el-col>
@@ -59,9 +59,9 @@
         <div class="desc">在本站提交的评论</div>
       </el-col>
       <el-col :span="6" class="info-item">
-        <div class="info">关注</div>
+        <div class="info">预约</div>
         <div class="count">0</div>
-        <div class="desc">关注的人数</div>
+        <div class="desc">预约的宠物店</div>
       </el-col>
       <el-col :span="6" class="info-item">
         <div class="info">粉丝</div>
