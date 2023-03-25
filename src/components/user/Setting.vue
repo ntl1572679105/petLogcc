@@ -118,7 +118,7 @@
     <el-col class="label" :span="6">绑定手机</el-col>
     <el-col class="content" :span="18">
       <div v-if="!phoneEditting">
-        <span class="text">13336719336</span
+        <span class="text">13332435433</span
         ><span class="hover-edit iconfont" @click="phoneEditting = true"
           >&#xe600; 编辑</span
         >
