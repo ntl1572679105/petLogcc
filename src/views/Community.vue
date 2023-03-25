@@ -1,13 +1,21 @@
 <template>
     <div>
-        社区
+        <CommunityHeader />
+        
+        <el-main>
+            <router-view/>
+        </el-main>
+        
     </div>
 </template>
 
-<script setup lang="ts">
-
+<script>
+import CommunityHeader from "../components/CommunityHeader"
+export default {
+    components: {
+        CommunityHeader
+    }
+}
 </script>
 
-<style scoped>
-
-</style>
+<style lang="scss" scoped></style>

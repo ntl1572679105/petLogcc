@@ -13,9 +13,11 @@
           <el-button>用户信息</el-button>
         </el-menu>
       </el-header>
+
       <el-main>
         <router-view/>
       </el-main>
+      
       <el-footer>Footer</el-footer>
     </el-container>
   </div>

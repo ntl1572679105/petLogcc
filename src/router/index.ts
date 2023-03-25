@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import communityChildren from './children/community.js'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,11 +22,27 @@ const routes: Array<RouteRecordRaw> = [
         name: 'petshop',
         component: () => import( '../views/PetShop.vue')
       },
+
       {
         path: 'community',
         name: 'community',
-        component: () => import( '../views/Community.vue')
+        component: () => import( '../views/Community.vue'),
+        redirect:'/home/community/index',
+        children:communityChildren
+      //   children: [
+      //     {
+      //     path: 'index',
+      //     name: 'CommunityIndex',
+      //     component: () => import('../views/Community/HomePage.vue'),
+      //     },
+      //     {
+      //       path: 'search',
+      //       name: 'CommunitySearch',
+      //       component: () => import('../views/Community/SearchPage.vue'),
+      //       },
+      // ]
       },
+
       {
         path: 'news',
         name: 'news',
