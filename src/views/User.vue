@@ -5,8 +5,12 @@
       <!-- 头部背景及头像、名称 -->
       <div style="position: relative">
         <el-image
-          :src="require('@/assets/imgs/task_bg.jpg')"
-          :style="{ width: '1200px',height:'235.83px', borderRadius: '5px 5px 0 0' }"
+          :src="bannarSrc"
+          :style="{
+            width: '1200px',
+            height: '235.83px',
+            borderRadius: '5px 5px 0 0',
+          }"
         />
         <div style="position: absolute; right: 30px; top: 30px">
           <el-button
@@ -22,7 +26,7 @@
               type="file"
               style="display: none"
               accept="image/*"
-              @change="changeAvatar($event)"
+              @change="changeBannar($event)"
             />
           </label>
         </div>
@@ -127,19 +131,24 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRefs } from "vue";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Home",
   setup() {
     let data = ref({
-      avatarSrc: require("@/assets/imgs/default-avatar.png"),
+      avatarSrc: require("@/assets/user/imgs/default-avatar.png"),
+      bannarSrc:require("@/assets/user/imgs/task_bg.jpg")
     });
-    let { avatarSrc } = toRefs(data.value);
+    let { avatarSrc,bannarSrc } = toRefs(data.value);
     let methods = {
       changeAvatar(e: any) {
         const file = e.target.files[0];
         if (file) avatarSrc.value = URL.createObjectURL(file);
+      },
+      changeBannar(e: any) {
+        const file = e.target.files[0];
+        if (file) bannarSrc.value = URL.createObjectURL(file);
       },
     };
 
@@ -153,16 +162,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/user/icons/iconfont.css";
 .menu-item {
   justify-content: space-between;
   &.active {
     color: orange !important;
   }
-}
-
-.menu-item-arrow {
-  width: 1rem;
-  height: 1rem;
 }
 
 .file-selector {

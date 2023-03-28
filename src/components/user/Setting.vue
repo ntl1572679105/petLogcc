@@ -168,11 +168,11 @@
   </el-row>
   <el-row style="margin-top: 30px">头像选择</el-row>
   <el-row style="margin-top: 30px"
-    ><img style="width: 100px" src="@/assets/imgs/default-avatar.png" alt=""
+    ><img style="width: 100px" src="@/assets/user/imgs/default-avatar.png" alt=""
   /></el-row>
   <el-row style="margin-top: 30px">社交绑定</el-row>
   <el-row style="margin-top: 30px">
-    <el-col :offset="2">
+    <el-col :offset="2" :span="22">
       <div>QQ</div>
       <div>未绑定</div>
       <el-button type="warning">添加绑定</el-button>

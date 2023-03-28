@@ -4,6 +4,9 @@ const { ElementUiResolver }= require('unplugin-vue-components/resolvers');
 const ComponentsPlugin = require('unplugin-vue-components/webpack');
 module.exports = defineConfig({
   transpileDependencies: true,
+  devServer:{
+    allowedHosts:"all"
+  }
   // configureWebpack: {
   //   plugins: [
   //     ComponentsPlugin({
