@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 const services = [
   {
     id: 1,
@@ -39,7 +38,7 @@ const services = [
   {
     id: 4,
     to: "/home/pet-services/photo",
-    name: "爱宠合影",
+    name: "爱宠拍照",
     src: "https://i.postimg.cc/9QTy95Xf/DM-20230324110943-005.png",
   },
 ];

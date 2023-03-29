@@ -10,7 +10,6 @@ const PetServices = [
     {
         path: 'foster-care',
         component: () => import('@/views/PetServices/FosterCare.vue'),
-        meta: { keepAlive: true }
     },
     {
         path: 'photo',
