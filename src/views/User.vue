@@ -36,9 +36,10 @@
           style="position: absolute; left: 20px; bottom: -65px"
         >
           <el-avatar
+            v-if="userInfo"
             shape="square"
             style="width: 100%; height: 100%"
-            :src="avatarSrc"
+            :src="userInfo.avatar"
           ></el-avatar>
           <div class="avatar-hover-effect">
             <label class="file-selector">
@@ -58,8 +59,10 @@
       </div>
       <div style="margin-left: 180px; color: gray">
         <div>
-          <span style="font-weight: bold; font-size: 20px; color: black"
-            >Uyg</span
+          <span
+            v-if="userInfo"
+            style="font-weight: bold; font-size: 20px; color: black"
+            >{{ userInfo.user_name }}</span
           ><span style="font-size: 12px; margin-left: 20px">居民</span
           ><span style="font-size: 12px; margin-left: 20px">Lv0</span>
         </div>
@@ -122,7 +125,7 @@
         </el-col>
         <!-- 右侧内容 -->
         <el-col :span="19" :offset="1" style="margin-top: 20px">
-          <router-view />
+          <router-view v-if="userInfo" />
         </el-col>
       </el-row>
     </div>
@@ -130,17 +133,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from "vue";
-// import { useRoute } from "vue-router";
+import { Ref, defineComponent, onMounted, ref, toRefs, provide } from "vue";
+import axios from "axios";
 
 export default defineComponent({
   name: "Home",
+
   setup() {
-    let data = ref({
+    let data: Ref<{ avatarSrc: any; bannarSrc: any; userInfo: any }> = ref({
       avatarSrc: require("@/assets/user/imgs/default-avatar.png"),
-      bannarSrc:require("@/assets/user/imgs/task_bg.jpg")
+      bannarSrc: require("@/assets/user/imgs/task_bg.jpg"),
+      userInfo: undefined,
     });
-    let { avatarSrc,bannarSrc } = toRefs(data.value);
+
+    let { avatarSrc, bannarSrc, userInfo } = toRefs(data.value);
+    provide("userInfo", userInfo);
+    onMounted(() => {
+      axios.get("/user/query/id", { params: { user_id: 1 } }).then((res) => {
+        userInfo.value = res.data.data[0];
+      });
+    });
     let methods = {
       changeAvatar(e: any) {
         const file = e.target.files[0];
