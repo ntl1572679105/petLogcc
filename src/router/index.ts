@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import petservice from '@/router/children/petservice.js'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,9 +18,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import( '../views/Index.vue')
       },
       {
-        path: 'petshop',
-        name: 'petshop',
-        component: () => import( '../views/PetShop.vue')
+        path: 'pet-services',
+        name: 'petservices',
+        component: () => import( '../views/PetServices/PetServices.vue'),
+        redirect: '/home/pet-services/shower',
+        children:petservice
       },
       {
         path: 'community',
