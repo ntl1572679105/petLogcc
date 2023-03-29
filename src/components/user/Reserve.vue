@@ -15,9 +15,48 @@
   </el-row>
 </template>
 <style scoped lang="scss">
-.table-row{
-    margin-top: 30px;
-    font-size: 14px;
+.table-row {
+  margin-top: 30px;
+  font-size: 14px;
 }
-
 </style>
+
+<script lang="ts">
+import axios from 'axios';
+import { defineComponent, Ref, ref, toRefs, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import NoItems from "./NoItems.vue";
+
+export default defineComponent({
+  name: "Article",
+  components: { NoItems },
+  setup() {
+    let data: Ref<{ commentList: any }> = ref({
+      commentList: undefined,
+    });
+
+    let { commentList } = toRefs(data.value);
+
+    onMounted(() => {
+      axios
+        .get("/petshop/getwashByUserId", {
+          params: {
+            user_id: useRoute().params.id,
+            pno:1,
+            count:2
+          },
+        })
+        .then((res) => {
+          console.log(res.data.data.data);
+          // commentList.value = res.data.data;
+        });
+    });
+    let methods = {};
+
+    return {
+      ...toRefs(data.value),
+      ...methods,
+    };
+  },
+});
+</script>

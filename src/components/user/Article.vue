@@ -1,12 +1,13 @@
 <template>
   <el-row v-if="articleList">
-    <el-col style="margin-bottom: 20px" :span="8" v-for="item in articleList">
-      <div style="width: 70%">
-        <div style="font-size: 14px;color: #607d8b;">{{ item.invitation_title }}</div>
+    <NoItems v-if="articleList.length===0"/>
+    <el-col style="margin-bottom: 20px;" :span="8" v-for="item in articleList">
+      <div style="width: 70%;cursor: pointer;">
+        <div style="font-size: 14px;font-weight: bold;">{{ item.invitation_title }}</div>
         <div class="article-content" style="">
           {{ item.invitation_content }}
         </div>
-        <div style="margin-top: 20px; font-size: 12px">
+        <div style="margin-top: 20px; font-size: 12px;color:#607d8b;">
           {{ new Date(item.invitation_time).toLocaleString() }}
         </div>
       </div>
@@ -39,7 +40,6 @@ export default defineComponent({
           },
         })
         .then((res) => {
-          console.log(res.data.data);
           articleList.value = res.data.data;
         });
     });
