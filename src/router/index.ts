@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import userChildrenRoutes from "./children/user.js";
+import userChildrenRoutes from "./children/user";
 
 const routes: Array<RouteRecordRaw> = [
   {

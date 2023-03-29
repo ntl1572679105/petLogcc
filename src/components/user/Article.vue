@@ -1,22 +1,69 @@
 <template>
-  <el-row>
-    <el-col :span="8">
-      <div>您真的了解宠物吗</div>
-      <div style="color: #607d8b; font-size: 12px; margin-top: 10px">
-        宠物新鲜事
+  <el-row v-if="articleList">
+    <el-col style="margin-bottom: 20px" :span="8" v-for="item in articleList">
+      <div style="width: 70%">
+        <div style="font-size: 14px;color: #607d8b;">{{ item.invitation_title }}</div>
+        <div class="article-content" style="">
+          {{ item.invitation_content }}
+        </div>
+        <div style="margin-top: 20px; font-size: 12px">
+          {{ new Date(item.invitation_time).toLocaleString() }}
+        </div>
       </div>
-      <div style="margin-top: 20px; font-size: 12px">10小时前</div>
     </el-col>
-
   </el-row>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { Ref, defineComponent, onMounted, ref, toRefs } from "vue";
 import NoItems from "./NoItems.vue";
+import { useRoute } from "vue-router";
+import axios from "axios";
 
 export default defineComponent({
   name: "Article",
   components: { NoItems },
+  setup() {
+    let data: Ref<{ articleList: any }> = ref({
+      articleList: undefined,
+    });
+
+    let { articleList } = toRefs(data.value);
+
+    onMounted(() => {
+      axios
+        .get("/community/list/id", {
+          params: {
+            user_id: useRoute().params.id,
+            page: 1,
+            pagesize: 2,
+          },
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          articleList.value = res.data.data;
+        });
+    });
+    let methods = {};
+
+    return {
+      ...toRefs(data.value),
+      ...methods,
+    };
+  },
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.article-content {
+  color: gray;
+  font-size: 12px;
+  margin-top: 20px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-height: 1.5em;
+  max-height: 4.5em;
+}
+</style>

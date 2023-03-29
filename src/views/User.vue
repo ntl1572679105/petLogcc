@@ -13,14 +13,14 @@
           }"
         />
         <div style="position: absolute; right: 30px; top: 30px">
-          <el-button
+          <!-- <el-button
             type="plain"
             style="background-color: transparent; color: white"
           >
             <span class="iconfont" style="font-size: 14px"
               >&#xe62c; 上传封面照片</span
             >
-          </el-button>
+          </el-button> -->
           <label class="file-selector">
             <input
               type="file"
@@ -35,12 +35,13 @@
           class="avatar"
           style="position: absolute; left: 20px; bottom: -65px"
         >
-          <el-avatar
+          <img
             v-if="userInfo"
-            shape="square"
-            style="width: 100%; height: 100%"
-            :src="userInfo.avatar"
-          ></el-avatar>
+            style="width: 100%; height: 100%; border-radius: 4px"
+            :src="avatarSrc"
+            @error="handleAvatarError"
+          />
+
           <div class="avatar-hover-effect">
             <label class="file-selector">
               <input
@@ -77,7 +78,7 @@
           <!-- 修改了导航栏的默认行为 -->
           <el-menu text-color="gray" active-text-color="gray">
             <el-menu-item
-              :class="{ active: /\/user\/[^\/]+$/.test($route.path) }"
+              :class="{ active: /\/user\/[^\/]+\/?$/.test($route.path) }"
               index="1"
               class="menu-item"
               @click="$router.push({ name: 'overview' })"
@@ -86,20 +87,47 @@
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
             <el-menu-item
-              index="2"
+              index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/article/.test($route.path) }"
+              :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
               @click="$router.push({ name: 'article' })"
             >
               <div class="iconfont">&#xe615; 文章</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
+            <el-menu-item
+              index="1"
+              class="menu-item"
+              :class="{ active: /\/user\/.*?\/comment\/?/.test($route.path) }"
+              @click="$router.push({ name: 'comment' })"
+            >
+              <div class="iconfont">&#xe615; 评论</div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
+            >
+            <el-menu-item
+              index="1"
+              class="menu-item"
+              :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
+              @click="$router.push({ name: 'article' })"
+            >
+              <div class="iconfont">&#xe615; 寄养</div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
+            >
+            <el-menu-item
+              index="1"
+              class="menu-item"
+              :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
+              @click="$router.push({ name: 'article' })"
+            >
+              <div class="iconfont">&#xe615; 照相</div>
+              <div class="iconfont">&#xe65f;</div></el-menu-item
+            >
 
             <el-menu-item
-              index="3"
+              index="1"
               class="menu-item"
               :class="{
-                active: /\/user\/.*?\/reservation/.test($route.path),
+                active: /\/user\/.*?\/reservation\/?/.test($route.path),
               }"
               @click="$router.push({ name: 'reservation' })"
             >
@@ -113,14 +141,15 @@
             >
 
             <el-menu-item
-              index="4"
+              index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/setting/.test($route.path) }"
+              :class="{ active: /\/user\/.*?\/setting\/?/.test($route.path) }"
               @click="$router.push({ name: 'setting' })"
             >
               <div class="iconfont">&#xe6a4; 设置</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
+
           </el-menu>
         </el-col>
         <!-- 右侧内容 -->
@@ -135,13 +164,15 @@
 <script lang="ts">
 import { Ref, defineComponent, onMounted, ref, toRefs, provide } from "vue";
 import axios from "axios";
+import { useRoute } from "vue-router";
+const fileUploadServerUrl = "http://localhost:9000";
 
 export default defineComponent({
   name: "Home",
 
   setup() {
     let data: Ref<{ avatarSrc: any; bannarSrc: any; userInfo: any }> = ref({
-      avatarSrc: require("@/assets/user/imgs/default-avatar.png"),
+      avatarSrc: undefined,
       bannarSrc: require("@/assets/user/imgs/task_bg.jpg"),
       userInfo: undefined,
     });
@@ -149,18 +180,44 @@ export default defineComponent({
     let { avatarSrc, bannarSrc, userInfo } = toRefs(data.value);
     provide("userInfo", userInfo);
     onMounted(() => {
-      axios.get("/user/query/id", { params: { user_id: 1 } }).then((res) => {
-        userInfo.value = res.data.data[0];
-      });
+      axios
+        .get("/user/query/id", { params: { user_id: useRoute().params.id } })
+        .then((res) => {
+          userInfo.value = res.data.data[0];
+          avatarSrc.value = userInfo.value.user_avatar;
+        });
     });
     let methods = {
       changeAvatar(e: any) {
         const file = e.target.files[0];
-        if (file) avatarSrc.value = URL.createObjectURL(file);
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+          axios
+            .post(fileUploadServerUrl + "/upload", formData)
+            .then((res) => {
+              userInfo.value.user_avatar = res.data.data;
+              return axios.post(
+                "/user/update",
+                `user_id=${userInfo.value.user_id}
+&user_name=${userInfo.value.user_name}
+&user_phone=${userInfo.value.user_phone}
+&user_pwd=${userInfo.value.user_pwd}
+&user_email=${userInfo.value.user_email}
+&user_avatar=${userInfo.value.user_avatar}`
+              );
+            })
+            .then(() => {
+              avatarSrc.value = userInfo.value.user_avatar;
+            });
+        }
       },
       changeBannar(e: any) {
         const file = e.target.files[0];
         if (file) bannarSrc.value = URL.createObjectURL(file);
+      },
+      handleAvatarError(e: any) {
+        avatarSrc.value = require("@/assets/user/imgs/default-avatar.png");
       },
     };
 

@@ -27,23 +27,24 @@
       <el-col v-if="!genderEditting" class="content" :span="18">
         <span class="text">{{ userInfo.user_sex === 1 ? "男" : "女" }}</span>
 
-        <span class="hover-edit iconfont" @click="genderEditting = true"
+        <!-- <span class="hover-edit iconfont" @click="genderEditting = true"
           >&#xe600; 编辑</span
-        ></el-col
-      >
-      <el-col v-else class="content" :span="18">
-        <el-radio-group v-model="userInfo.user_sex">
-          <el-radio label="1" size="large">男</el-radio>
-          <el-radio label="2" size="large">女</el-radio>
+        > -->
+      </el-col>
+
+      <!-- <el-col v-else class="content" :span="18">
+        <el-radio-group v-model="tempUserInfo.user_sex">
+          <el-radio :label="1" size="large">男</el-radio>
+          <el-radio :label="0" size="large">女</el-radio>
         </el-radio-group>
         <div class="hint-text" style="margin-top: 10px">中文、英文或数字</div>
         <div style="margin-top: 10px">
           <el-button plain type="warning" @click="genderEditting = false"
             >取消</el-button
           >
-          <el-button type="warning">保存</el-button>
+          <el-button type="warning" @click="genderSave()">保存</el-button>
         </div>
-      </el-col>
+      </el-col> -->
     </el-row>
 
     <el-row class="table-row">
@@ -55,14 +56,14 @@
         ></el-col
       >
       <el-col v-else class="content" :span="18">
-        <el-input style="width: 200px" />
+        <el-input style="width: 200px" v-model="tempUserInfo.user_email" />
         <div class="hint-text" style="margin-top: 10px">输入邮箱</div>
 
         <div style="margin-top: 10px">
           <el-button plain type="warning" @click="emailEditting = false"
             >取消</el-button
           >
-          <el-button type="warning">保存</el-button>
+          <el-button type="warning" @click="emailSave()">保存</el-button>
         </div>
       </el-col>
     </el-row>
@@ -125,13 +126,13 @@
           >
         </div>
         <div v-else>
-          <el-input style="width: 200px" />
+          <el-input style="width: 200px" v-model="tempUserInfo.user_phone" />
 
           <div style="margin-top: 10px">
             <el-button plain type="warning" @click="phoneEditting = false"
               >取消</el-button
             >
-            <el-button type="warning">保存</el-button>
+            <el-button type="warning" @click="phoneSave()">保存</el-button>
           </div>
         </div>
         <div class="hint-text" style="margin-top: 10px">手机号码可用作登录</div>
@@ -149,21 +150,31 @@
         </div>
         <div v-else>
           <div>
-            <el-input style="width: 200px" placeholder="新密码" />
+            <el-input
+              style="width: 200px"
+              placeholder="新密码"
+              type="password"
+              v-model="newPassword"
+            />
           </div>
           <div style="margin-top: 15px">
-            <el-input style="width: 200px" placeholder="重复新密码" />
+            <el-input
+              style="width: 200px"
+              placeholder="重复新密码"
+              type="password"
+              v-model="newRepeatPassword"
+            />
           </div>
 
           <div style="margin-top: 10px">
             <el-button plain type="warning" @click="passwordEditting = false"
               >取消</el-button
             >
-            <el-button type="warning">保存</el-button>
+            <el-button type="warning" @click="passwordSave()">保存</el-button>
           </div>
-        </div>
-        <div class="hint-text" style="margin-top: 10px">
-          请确保两次密码一致，并且密码大于6个字符！修改密码后请重新登录
+          <div class="hint-text" style="margin-top: 10px">
+            密码长度至少6位，且必须包含数字、大小写字母及特殊字符
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -229,6 +240,8 @@ export default defineComponent({
       passwordEditting: boolean;
       microMsgQRCode: string;
       alipayQRCode: string;
+      newPassword: string;
+      newRepeatPassword: string;
       tempUserInfo: any;
     }> = ref({
       nicknameEditting: false,
@@ -240,11 +253,23 @@ export default defineComponent({
       passwordEditting: false,
       microMsgQRCode: "",
       alipayQRCode: "",
+      newPassword: "",
+      newRepeatPassword: "",
       tempUserInfo: undefined,
     });
 
-    let { alipayQRCode, microMsgQRCode, tempUserInfo, nicknameEditting } =
-      toRefs(data.value);
+    let {
+      alipayQRCode,
+      microMsgQRCode,
+      tempUserInfo,
+      nicknameEditting,
+      phoneEditting,
+      emailEditting,
+      genderEditting,
+      newPassword,
+      newRepeatPassword,
+      passwordEditting,
+    } = toRefs(data.value);
     const userInfo = inject<any>("userInfo", undefined);
 
     tempUserInfo.value = { ...userInfo.value };
@@ -259,22 +284,86 @@ export default defineComponent({
         if (file) alipayQRCode.value = URL.createObjectURL(file);
       },
       async saveInfo() {
-        return axios.post(
-          "/user/update",
-          `user_id=${tempUserInfo.value.user_id}
+        return axios
+          .post(
+            "/user/update",
+            `user_id=${tempUserInfo.value.user_id}
 &user_name=${tempUserInfo.value.user_name}
 &user_phone=${tempUserInfo.value.user_phone}
 &user_pwd=${tempUserInfo.value.user_pwd}
 &user_email=${tempUserInfo.value.user_email}
 &user_avatar=${tempUserInfo.value.user_avatar}`
-        );
+          )
+          .then(() => {
+            userInfo.value = { ...tempUserInfo.value };
+          });
       },
       nicknameSave() {
         if (tempUserInfo.value.user_name.trim() === "") alert("昵称不能为空");
         else {
           this.saveInfo().then((res) => {
-            userInfo.value = tempUserInfo.value;
             nicknameEditting.value = false;
+          });
+        }
+      },
+      phoneSave() {
+        if (tempUserInfo.value.user_phone.trim() === "")
+          alert("电话号码不能为空");
+        else if (
+          !/^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1589]))\d{8}$/.test(
+            tempUserInfo.value.user_phone
+          )
+        )
+          alert("电话号码格式不正确");
+        else {
+          axios
+            .post(
+              "/user/query/phone",
+              `user_phone=${tempUserInfo.value.user_phone}`
+            )
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.saveInfo().then((res) => {
+                  phoneEditting.value = false;
+                });
+              } else {
+                alert("手机号已被注册");
+              }
+            });
+        }
+      },
+      emailSave() {
+        if (tempUserInfo.value.user_email.trim() === "") alert("邮箱不能为空");
+        else if (
+          !/^\w+@[\da-z\.-]+\.([a-z]{2,6}|[\u2E80-\u9FFF]{2,3})$/.test(
+            tempUserInfo.value.user_email
+          )
+        )
+          alert("邮箱格式不正确");
+        else {
+          this.saveInfo().then((res) => {
+            emailEditting.value = false;
+          });
+        }
+      },
+      genderSave() {
+        this.saveInfo().then((res) => {
+          genderEditting.value = false;
+        });
+      },
+      passwordSave() {
+        if (
+          !/^\S*(?=\S{6,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/.test(
+            newPassword.value
+          )
+        )
+          alert("密码长度至少6位，且必须包含数字、大小写字母及特殊字符");
+        else if (newPassword.value !== newRepeatPassword.value)
+          alert("两次输入的密码不一致");
+        else {
+          tempUserInfo.value.user_pwd = newPassword;
+          this.saveInfo().then((res) => {
+            passwordEditting.value = false;
           });
         }
       },

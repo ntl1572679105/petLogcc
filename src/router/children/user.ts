@@ -19,4 +19,9 @@ export default [
     name: "setting",
     component: () => import("@/components/user/Setting.vue"),
   },
+  {
+    path: "comment",
+    name: "comment",
+    component: () => import("@/components/user/Comment.vue"),
+  },
 ];
