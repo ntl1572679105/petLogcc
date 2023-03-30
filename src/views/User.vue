@@ -107,8 +107,8 @@
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
-              @click="$router.push({ name: 'article' })"
+              :class="{ active: /\/user\/.*?\/fosterate\/?/.test($route.path) }"
+              @click="$router.push({ name: 'fosterate' })"
             >
               <div class="iconfont">&#xe615; 寄养</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
@@ -116,8 +116,8 @@
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
-              @click="$router.push({ name: 'article' })"
+              :class="{ active: /\/user\/.*?\/photo\/?/.test($route.path) }"
+              @click="$router.push({ name: 'photo' })"
             >
               <div class="iconfont">&#xe615; 照相</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
