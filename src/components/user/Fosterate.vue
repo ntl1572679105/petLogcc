@@ -72,7 +72,7 @@ import { useRoute } from "vue-router";
 import NoItems from "./NoItems.vue";
 
 export default defineComponent({
-  name: "Article",
+  name: "Fosterate",
   components: { NoItems },
   setup() {
     let data: Ref<{ reserveList: any }> = ref({

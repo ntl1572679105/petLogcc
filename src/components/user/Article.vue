@@ -1,13 +1,19 @@
 <template>
   <el-row v-if="articleList">
-    <NoItems v-if="articleList.length===0"/>
-    <el-col style="margin-bottom: 20px;" :span="8" v-for="item in articleList">
-      <div style="width: 70%;cursor: pointer;">
-        <div style="font-size: 14px;font-weight: bold;">{{ item.invitation_title }}</div>
+    <NoItems v-if="articleList.length === 0" />
+    <el-col
+      :style="{ 'margin-top': i < 3 ? 0 : '40px' }"
+      :span="8"
+      v-for="(item, i) in articleList"
+    >
+      <div style="width: 70%; cursor: pointer">
+        <div style="font-size: 14px; font-weight: bold">
+          {{ item.invitation_title }}
+        </div>
         <div class="article-content" style="">
           {{ item.invitation_content }}
         </div>
-        <div style="margin-top: 20px; font-size: 12px;color:#607d8b;">
+        <div style="margin-top: 20px; font-size: 12px; color: #607d8b">
           {{ new Date(item.invitation_time).toLocaleString() }}
         </div>
       </div>
@@ -40,7 +46,8 @@ export default defineComponent({
           },
         })
         .then((res) => {
-          articleList.value = res.data.data;
+          console.log(res)
+          articleList.value = res.data.data
         });
     });
     let methods = {};
