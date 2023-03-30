@@ -1,5 +1,17 @@
 <template>
-  <el-row style="font-size: 14px">
+  <el-row>
+    <el-col :span="6" v-for="item in reserveList">
+      <div>
+        <img :src="item.petshop_img" alt="">
+      </div>
+      <div>丢丢宠物</div>
+      <div>地址：ugiug</div>
+      <div>联系电话：uiguyg</div>
+      <div>洗漱时间：1655675</div>
+
+    </el-col>
+  </el-row>
+  <!-- <el-row style="font-size: 14px">
     <el-col :span="3"> 编号 </el-col>
     <el-col :span="9"> 邀请码 </el-col>
     <el-col :span="4"> 奖励</el-col>
@@ -12,7 +24,7 @@
     <el-col :span="4"> 100</el-col>
     <el-col :span="4"> 未使用</el-col>
     <el-col :span="4"> 未使用</el-col>
-  </el-row>
+  </el-row> -->
 </template>
 <style scoped lang="scss">
 .table-row {
@@ -31,11 +43,11 @@ export default defineComponent({
   name: "Article",
   components: { NoItems },
   setup() {
-    let data: Ref<{ commentList: any }> = ref({
-      commentList: undefined,
+    let data: Ref<{ reserveList: any }> = ref({
+      reserveList: undefined,
     });
 
-    let { commentList } = toRefs(data.value);
+    let { reserveList } = toRefs(data.value);
 
     onMounted(() => {
       axios
@@ -48,7 +60,7 @@ export default defineComponent({
         })
         .then((res) => {
           console.log(res.data.data.data);
-          // commentList.value = res.data.data;
+          reserveList.value = res.data.data;
         });
     });
     let methods = {};
