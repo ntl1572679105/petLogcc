@@ -90,7 +90,7 @@
               index="1"
               class="menu-item"
               :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
-              @click="$router.push({ name: 'article' })"
+              @click="$router.push({ name: 'article', query: { page: 1 } })"
             >
               <div class="iconfont">&#xe615; 文章</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
@@ -149,7 +149,6 @@
               <div class="iconfont">&#xe6a4; 设置</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
-
           </el-menu>
         </el-col>
         <!-- 右侧内容 -->
