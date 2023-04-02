@@ -58,7 +58,6 @@ export default defineComponent({
           },
         })
         .then((res) => {
-          console.log(res)
           reserveList.value = res.data.data.data;
         });
     });

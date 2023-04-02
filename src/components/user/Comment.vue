@@ -63,7 +63,7 @@ export default defineComponent({
           },
         })
         .then((res) => {
-          console.log(res.data.data);
+          
           commentList.value = res.data.data;
         });
     });

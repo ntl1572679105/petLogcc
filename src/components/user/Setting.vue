@@ -398,7 +398,7 @@ export default defineComponent({
 
     return {
       ...toRefs(data.value),
-      ...toRefs(methods),
+      ...methods,
       userInfo,
     };
   },

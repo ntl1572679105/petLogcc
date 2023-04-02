@@ -89,6 +89,7 @@ export default defineComponent({
     watch(
       () => router.currentRoute.value,
       () => {
+        if (route.name !== "article") return;
         currentPage.value = Number(route.query.page);
         methods.getArticles(currentPage.value);
       },
