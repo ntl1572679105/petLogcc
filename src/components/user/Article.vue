@@ -1,13 +1,13 @@
 <template>
-  <div v-if="articleList">
+  <template v-if="articleList">
+    <NoItems v-if="articleList.length === 0" />
     <el-row>
-      <NoItems v-if="articleList.length === 0" />
       <el-col
         :style="{ 'margin-top': i < 3 ? 0 : '40px' }"
         :span="8"
         v-for="(item, i) in articleList"
       >
-        <div style="width: 70%; cursor: pointer">
+        <div style="width: 70%; cursor: pointer; background-color: #f5f5f5">
           <div style="font-size: 14px; font-weight: bold">
             {{ item.invitation_title }}
           </div>
@@ -32,7 +32,7 @@
         @current-change="handleCurrentChange()"
       />
     </div>
-  </div>
+  </template>
 </template>
 <script lang="ts">
 import { Ref, defineComponent, onMounted, ref, toRefs, watch } from "vue";

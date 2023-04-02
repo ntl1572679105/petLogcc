@@ -226,6 +226,7 @@ import { defineComponent, inject, ref, toRefs, Ref, watch } from "vue";
 
 import NoItems from "./NoItems.vue";
 import axios from "axios";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Setting",
@@ -299,7 +300,11 @@ export default defineComponent({
           });
       },
       nicknameSave() {
-        if (tempUserInfo.value.user_name.trim() === "") alert("昵称不能为空");
+        if (tempUserInfo.value.user_name.trim() === "")
+          ElMessage({
+            message: "昵称不能为空",
+            duration: 2000,
+          });
         else {
           this.saveInfo().then((res) => {
             nicknameEditting.value = false;
@@ -308,13 +313,19 @@ export default defineComponent({
       },
       phoneSave() {
         if (tempUserInfo.value.user_phone.trim() === "")
-          alert("电话号码不能为空");
+          ElMessage({
+            message: "电话号码不能为空",
+            duration: 2000,
+          });
         else if (
           !/^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1589]))\d{8}$/.test(
             tempUserInfo.value.user_phone
           )
         )
-          alert("电话号码格式不正确");
+          ElMessage({
+            message: "电话号码格式不正确",
+            duration: 2000,
+          });
         else {
           axios
             .post(
@@ -327,19 +338,29 @@ export default defineComponent({
                   phoneEditting.value = false;
                 });
               } else {
-                alert("手机号已被注册");
+                ElMessage({
+                  message: "手机号已被注册",
+                  duration: 2000,
+                });
               }
             });
         }
       },
       emailSave() {
-        if (tempUserInfo.value.user_email.trim() === "") alert("邮箱不能为空");
+        if (tempUserInfo.value.user_email.trim() === "")
+          ElMessage({
+            message: "邮箱不能为空",
+            duration: 2000,
+          });
         else if (
           !/^\w+@[\da-z\.-]+\.([a-z]{2,6}|[\u2E80-\u9FFF]{2,3})$/.test(
             tempUserInfo.value.user_email
           )
         )
-          alert("邮箱格式不正确");
+          ElMessage({
+            message: "邮箱格式不正确",
+            duration: 2000,
+          });
         else {
           this.saveInfo().then((res) => {
             emailEditting.value = false;
@@ -357,9 +378,15 @@ export default defineComponent({
             newPassword.value
           )
         )
-          alert("密码长度至少6位，且必须包含数字、大小写字母及特殊字符");
+          ElMessage({
+            message: "密码长度至少6位，且必须包含数字、大小写字母及特殊字符",
+            duration: 2000,
+          });
         else if (newPassword.value !== newRepeatPassword.value)
-          alert("两次输入的密码不一致");
+          ElMessage({
+            message: "两次输入的密码不一致",
+            duration: 2000,
+          });
         else {
           tempUserInfo.value.user_pwd = newPassword;
           this.saveInfo().then((res) => {

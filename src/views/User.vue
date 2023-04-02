@@ -38,7 +38,7 @@
           <img
             v-if="userInfo"
             style="width: 100%; height: 100%; border-radius: 4px"
-            :src="avatarSrc"
+            :src="userInfo.user_avatar"
             @error="handleAvatarError"
           />
 
@@ -89,37 +89,37 @@
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/article\/?/.test($route.path) }"
+              :class="{ active: /\/user\/.*?\/publish\/?/.test($route.path) }"
               @click="$router.push({ name: 'article', query: { page: 1 } })"
             >
-              <div class="iconfont">&#xe615; 文章</div>
+              <div class="iconfont">&#xe615; 发布</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
-            <el-menu-item
+            <!-- <el-menu-item
               index="1"
               class="menu-item"
               :class="{ active: /\/user\/.*?\/comment\/?/.test($route.path) }"
-              @click="$router.push({ name: 'comment' })"
+              @click="$router.push({ name: 'comment', query: { page: 1 } })"
             >
-              <div class="iconfont">&#xe615; 评论</div>
+              <div class="iconfont">&#xe891; 评论</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
-            >
+            > -->
             <el-menu-item
               index="1"
               class="menu-item"
               :class="{ active: /\/user\/.*?\/fosterate\/?/.test($route.path) }"
-              @click="$router.push({ name: 'fosterate' })"
+              @click="$router.push({ name: 'fosterate', query: { page: 1 } })"
             >
-              <div class="iconfont">&#xe615; 寄养</div>
+              <div class="iconfont">&#xe669; 寄养</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
             <el-menu-item
               index="1"
               class="menu-item"
               :class="{ active: /\/user\/.*?\/photo\/?/.test($route.path) }"
-              @click="$router.push({ name: 'photo' })"
+              @click="$router.push({ name: 'photo', query: { page: 1 } })"
             >
-              <div class="iconfont">&#xe615; 照相</div>
+              <div class="iconfont">&#xe663; 照相</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
 
@@ -129,13 +129,10 @@
               :class="{
                 active: /\/user\/.*?\/reservation\/?/.test($route.path),
               }"
-              @click="$router.push({ name: 'reservation' })"
+              @click="$router.push({ name: 'reservation', query: { page: 1 } })"
             >
               <div class="iconfont">
-                <span
-                  style="font-size: 16px; margin-left: 2px; margin-right: 4px"
-                  >&#xe60d;</span
-                >预约
+                &#xe644; 预约
               </div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
@@ -207,7 +204,7 @@ export default defineComponent({
               );
             })
             .then(() => {
-              avatarSrc.value = userInfo.value.user_avatar;
+              // avatarSrc.value = userInfo.value.user_avatar;
             });
         }
       },
@@ -216,7 +213,7 @@ export default defineComponent({
         if (file) bannarSrc.value = URL.createObjectURL(file);
       },
       handleAvatarError(e: any) {
-        avatarSrc.value = require("@/assets/user/imgs/default-avatar.png");
+        userInfo.value.user_avatar = require("@/assets/user/imgs/default-avatar.png");
       },
     };
 

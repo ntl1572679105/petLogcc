@@ -4,10 +4,27 @@ export default [
     name: "overview",
     component: () => import("@/components/user/Overview.vue"),
   },
+  // {
+  //   path: "article",
+  //   name: "article",
+  //   component: () => import("@/components/user/Article.vue"),
+  // },
   {
-    path: "article",
-    name: "article",
-    component: () => import("@/components/user/Article.vue"),
+    path: "publish",
+    name: "publish",
+    component: () => import("@/components/user/Publish.vue"),
+    children: [
+      {
+        path: "article",
+        name: "article",
+        component: () => import("@/components/user/Article.vue"),
+      },
+      {
+        path: "comment",
+        name: "comment",
+        component: () => import("@/components/user/Comment.vue"),
+      },
+    ]
   },
   {
     path: "reservation",
@@ -29,9 +46,9 @@ export default [
     name: "setting",
     component: () => import("@/components/user/Setting.vue"),
   },
-  {
-    path: "comment",
-    name: "comment",
-    component: () => import("@/components/user/Comment.vue"),
-  },
+  // {
+  //   path: "comment",
+  //   name: "comment",
+  //   component: () => import("@/components/user/Comment.vue"),
+  // },
 ];
