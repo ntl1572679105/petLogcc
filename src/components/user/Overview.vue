@@ -71,16 +71,16 @@
           <div class="desc">预约的宠物店</div>
         </el-col>
         <el-col :span="6" class="info-item">
-          <div class="info">粉丝</div>
+          <div class="info">照相</div>
           <div class="count">0</div>
-          <div class="desc">粉丝人数</div>
+          <div class="desc">宠物拍照</div>
         </el-col>
       </el-row>
       <el-row style="margin-top: 50px">
         <el-col :span="6" class="info-item">
-          <div class="info">收藏的文章</div>
+          <div class="info">寄养</div>
           <div class="count">0</div>
-          <div class="desc">收藏的文章数量</div>
+          <div class="desc">宠物寄养</div>
         </el-col>
       </el-row>
     </div>
