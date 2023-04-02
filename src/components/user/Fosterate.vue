@@ -58,7 +58,6 @@ export default defineComponent({
           },
         })
         .then((res) => {
-          console.log(res);
           reserveList.value = res.data.data;
         });
     });
@@ -71,7 +70,7 @@ export default defineComponent({
         });
         arr.push({
           label: "联系电话：",
-          content: reserveList.petshop_phone,
+          content: reserveList.admin_phone,
         });
         arr.push({
           label: "寄养时间：",

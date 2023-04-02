@@ -13,7 +13,10 @@
         <div style="margin-bottom: 10px; font-weight: bold; font-size: 14px">
           {{ userInfo.user_name }}
         </div>
-        <div v-html="item.commenton_content"></div>
+        <div
+          style="width: 300px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"
+          v-html="item.commenton_content"
+        ></div>
       </div>
     </div>
     <el-pagination
@@ -50,7 +53,7 @@ export default defineComponent({
         currentPage: Number(route.query.page),
       });
 
-    let { commentList, avatarSrc,currentPage } = toRefs(data.value);
+    let { commentList, avatarSrc, currentPage } = toRefs(data.value);
 
     onMounted(() => {
       axios
