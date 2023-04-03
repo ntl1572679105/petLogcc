@@ -35,7 +35,15 @@
   </template>
 </template>
 <script lang="ts">
-import { Ref, defineComponent, onMounted, ref, toRefs, watch } from "vue";
+import {
+  Ref,
+  defineComponent,
+  inject,
+  onMounted,
+  ref,
+  toRefs,
+  watch,
+} from "vue";
 import NoItems from "./NoItems.vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
@@ -53,7 +61,6 @@ export default defineComponent({
       totalItems: any;
       pagesize: any;
       pageKey: any;
-      userId: any;
     }> = ref({
       articleList: undefined,
       pagesize: 9,
@@ -63,15 +70,16 @@ export default defineComponent({
       pageKey: 1,
     });
 
-    let { articleList, currentPage, totalItems, pagesize, userId, pageKey } =
-      toRefs(data.value);
-
+    let { articleList, currentPage, totalItems, pagesize, pageKey } = toRefs(
+      data.value
+    );
+    const userInfo = inject<any>("userInfo", undefined);
     let methods = {
       getArticles(page: number) {
         axios
           .get("/community/list/id", {
             params: {
-              user_id: userId.value,
+              user_id: userInfo.value.user_id,
               page,
               pagesize: pagesize.value,
             },

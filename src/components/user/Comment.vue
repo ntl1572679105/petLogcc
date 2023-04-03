@@ -59,7 +59,7 @@ export default defineComponent({
       axios
         .get("/community/list/commenton/user", {
           params: {
-            user_id: useRoute().params.id,
+            user_id: userInfo.value.user_id,
           },
         })
         .then((res) => {

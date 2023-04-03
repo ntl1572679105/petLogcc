@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import axios from "axios";
-import { defineComponent, Ref, ref, toRefs, onMounted } from "vue";
+import { defineComponent, Ref, ref, toRefs, onMounted, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import NoItems from "./NoItems.vue";
 import Card from "./Card.vue";
@@ -47,12 +47,13 @@ export default defineComponent({
     });
 
     let { reserveList, currentPage } = toRefs(data.value);
+    const userInfo = inject<any>("userInfo", undefined);
 
     onMounted(() => {
       axios
         .get("/petshop/getwashByUserId", {
           params: {
-            user_id: useRoute().params.id,
+            user_id: userInfo.value.user_id,
             pno: 1,
             count: 2,
           },

@@ -78,7 +78,7 @@
           <!-- 修改了导航栏的默认行为 -->
           <el-menu text-color="gray" active-text-color="gray">
             <el-menu-item
-              :class="{ active: /\/user\/[^\/]+\/?$/.test($route.path) }"
+              :class="{ active: /\/user\/?$/.test($route.path) }"
               index="1"
               class="menu-item"
               @click="$router.push({ name: 'overview' })"
@@ -89,7 +89,7 @@
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/publish\/?/.test($route.path) }"
+              :class="{ active: /\/user\/publish\/?/.test($route.path) }"
               @click="$router.push({ name: 'article', query: { page: 1 } })"
             >
               <div class="iconfont">&#xe615; 发布</div>
@@ -107,7 +107,7 @@
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/fosterate\/?/.test($route.path) }"
+              :class="{ active: /\/user\/fosterate\/?/.test($route.path) }"
               @click="$router.push({ name: 'fosterate', query: { page: 1 } })"
             >
               <div class="iconfont">&#xe669; 寄养</div>
@@ -116,7 +116,7 @@
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/photo\/?/.test($route.path) }"
+              :class="{ active: /\/user\/photo\/?/.test($route.path) }"
               @click="$router.push({ name: 'photo', query: { page: 1 } })"
             >
               <div class="iconfont">&#xe663; 照相</div>
@@ -127,20 +127,18 @@
               index="1"
               class="menu-item"
               :class="{
-                active: /\/user\/.*?\/reservation\/?/.test($route.path),
+                active: /\/user\/reservation\/?/.test($route.path),
               }"
               @click="$router.push({ name: 'reservation', query: { page: 1 } })"
             >
-              <div class="iconfont">
-                &#xe644; 预约
-              </div>
+              <div class="iconfont">&#xe644; 预约</div>
               <div class="iconfont">&#xe65f;</div></el-menu-item
             >
 
             <el-menu-item
               index="1"
               class="menu-item"
-              :class="{ active: /\/user\/.*?\/setting\/?/.test($route.path) }"
+              :class="{ active: /\/user\/setting\/?/.test($route.path) }"
               @click="$router.push({ name: 'setting' })"
             >
               <div class="iconfont">&#xe6a4; 设置</div>
@@ -167,21 +165,21 @@ export default defineComponent({
   name: "Home",
 
   setup() {
-    let data: Ref<{ avatarSrc: any; bannarSrc: any; userInfo: any }> = ref({
-      avatarSrc: undefined,
+    let data: Ref<{ bannarSrc: any; userInfo: any }> = ref({
+      // avatarSrc: undefined,
       bannarSrc: require("@/assets/user/imgs/task_bg.jpg"),
       userInfo: undefined,
     });
 
-    let { avatarSrc, bannarSrc, userInfo } = toRefs(data.value);
+    const user_id = 1;
+
+    let { bannarSrc, userInfo } = toRefs(data.value);
     provide("userInfo", userInfo);
     onMounted(() => {
-      axios
-        .get("/user/query/id", { params: { user_id: useRoute().params.id } })
-        .then((res) => {
-          userInfo.value = res.data.data[0];
-          avatarSrc.value = userInfo.value.user_avatar;
-        });
+      axios.get("/user/query/id", { params: { user_id } }).then((res) => {
+        userInfo.value = res.data.data[0];
+        // avatarSrc.value = userInfo.value.user_avatar;
+      });
     });
     let methods = {
       changeAvatar(e: any) {
