@@ -34,12 +34,31 @@ const handleSelect = (key: string, keyPath: string[]) => {
   router.push(key)
 }
 
+
 </script>
 
-<style scoped>
-.el-menu{
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+<style scoped lang="scss">
+*{
+  margin: 0;
+  padding: 0;
+}
+.common-layout{
+  width: 100vw;
+  .el-container{
+    // position: relative;
+    .el-menu{
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+    .el-main{
+        // position: absolute;
+        width: 100vw;
+        top: 60px;
+        margin: -3px; 
+        // background-color: saddlebrown;
+    }
+  }
+
 }
 </style>

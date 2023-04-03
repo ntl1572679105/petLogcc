@@ -1,6 +1,5 @@
 <template>
   <router-view/>
-  App vue
 </template>
 
 <style lang="scss">

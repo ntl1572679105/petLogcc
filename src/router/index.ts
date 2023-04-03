@@ -1,69 +1,84 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import communityChildren from './children/community.js'
+// import communityChildren from './children/community.js'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path:'/',
-    redirect:'/home/index'
+    path: '/',
+    redirect: '/home/index'
   },
   {
     path: '/home',
     name: 'home',
     component: HomeView,
-    children:[
+    children: [
       {
         path: 'index',
         name: 'index',
-        component: () => import( '../views/Index.vue')
+        component: () => import('../views/Index.vue')
       },
       {
         path: 'petshop',
         name: 'petshop',
-        component: () => import( '../views/PetShop.vue')
+        component: () => import('../views/PetShop.vue')
       },
 
       {
         path: 'community',
         name: 'community',
-        component: () => import( '../views/Community.vue'),
-        redirect:'/home/community/index',
-        children:communityChildren
-      //   children: [
-      //     {
-      //     path: 'index',
-      //     name: 'CommunityIndex',
-      //     component: () => import('../views/Community/HomePage.vue'),
-      //     },
-      //     {
-      //       path: 'search',
-      //       name: 'CommunitySearch',
-      //       component: () => import('../views/Community/SearchPage.vue'),
-      //       },
-      // ]
+        component: () => import('../views/Community.vue'),
+        redirect: '/home/community/index',
+        // children:communityChildren
+        children: [
+          {
+            path: 'index',
+            name: 'CommunityIndex',
+            component: () => import('../views/Community/HomePage.vue'),
+          },
+          {
+            path: 'search',
+            name: 'CommunitySearch',
+            component: () => import('../views/Community/SearchPage.vue'),
+          },
+          {
+            path: 'vicnity',
+            name: 'CommunityVicnity',
+            component: () => import('../views/Community/VicnityPage.vue'),
+          },
+          {
+            path: 'topic',
+            name: 'CommunityTopic',
+            component: () => import('../views/Community/TopicPage.vue'),
+          },
+          {
+            path: 'commonent/:invitation_id',
+            name: 'CommunityCommonent',
+            component: () => import('../views/Community/CommonentPage.vue'),
+          },
+        ]
       },
 
       {
         path: 'news',
         name: 'news',
-        component: () => import( '../views/News.vue')
+        component: () => import('../views/News.vue')
       },
       {
         path: 'science',
         name: 'science',
-        component: () => import( '../views/Science.vue')
+        component: () => import('../views/Science.vue')
       },
     ]
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import( '../views/Login.vue')
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/regist',
     name: 'regist',
-    component: () => import( '../views/Regist.vue')
+    component: () => import('../views/Regist.vue')
   },
 ]
 

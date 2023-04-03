@@ -6,7 +6,7 @@
             <el-menu-item index="/home/community/index">首页</el-menu-item>
             <el-menu-item index="/home/community/search">发现</el-menu-item>
             <el-menu-item index="/home/community/vicnity">附近</el-menu-item>
-            <el-menu-item index="/home/community/topic">热点</el-menu-item>
+            <el-menu-item index="/home/community/topic">搜索</el-menu-item>
             <div class="avatar">
                 <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
             </div>
@@ -31,17 +31,27 @@ import { Search } from '@element-plus/icons-vue'
 .menu-item{
     display: flex;
     justify-content: space-between;
-    // background-color: aquamarine;
     margin-top: -18px;
+    background-color: #F7F7F7;
+    //横屏100%
+    position: absolute;
+    right: 0;
+    width: 100%;
+
+    
+    // min-height: 100vh;
     .img{
         display: block;
         object-fit: cover;
         width: 90px;
         height: 60px;
+        margin-left: 5%;
     }
     .el-menu-demo{
         width: 600px;
         border-bottom: none;
+        background-color: #F7F7F7;
+
         .search-input{
             width: 200px;
             height: 40px;
